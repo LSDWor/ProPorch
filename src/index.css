@@ -4,13 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-brand-dark text-white antialiased;
-  }
-}
-
-@layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-500;
+    @apply bg-gray-100 text-gray-900 antialiased;
   }
 }
 
@@ -22,14 +16,4 @@
 @keyframes scaleProgress {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }

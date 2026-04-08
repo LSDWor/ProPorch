@@ -1,216 +1,167 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, CheckCircle2, Zap, ArrowRight, MessageSquare, Star } from './Icons';
+import { ChevronLeft, CheckCircle2 } from './Icons';
 import { LOADING_STEPS, HERO_IMAGES } from '../data/mockData';
 import AddressInput from './AddressInput';
-import BottomNav from './BottomNav';
-import ProjectDashboard from './ProjectDashboard';
-import QuoteTool from './QuoteTool';
-import ReputationDashboard from './ReputationDashboard';
+import DrawerPanel from './DrawerPanel';
 
 interface DemoPortalProps {
   demo: any;
 }
 
+const SLIDE_DURATION = 5000;
+
 const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
-  const { state, setActiveTab, submitAddress, goToLanding, generateQuote, clearQuote } = demo;
-  const [heroIndex, setHeroIndex] = useState(0);
+  const { state, submitAddress, resetSearch, goToLanding, generateQuote, clearQuote } = demo;
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
 
+  // Cycle background images on home
   useEffect(() => {
-    if (state.activeTab !== 'home' || state.isLoading) return;
+    if (state.demoView !== 'home') return;
     const timer = setInterval(() => {
-      setHeroIndex(prev => (prev + 1) % HERO_IMAGES.length);
-    }, 5000);
+      setCurrentHeroIndex(prev => (prev + 1) % HERO_IMAGES.length);
+    }, SLIDE_DURATION);
     return () => clearInterval(timer);
-  }, [state.activeTab, state.isLoading]);
-
-  // Home tab content
-  const renderHome = () => {
-    if (state.isLoading) {
-      return (
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-50 px-6">
-          <div className="w-full max-w-xs space-y-4">
-            {LOADING_STEPS.map((step, index) => {
-              const isActive = index === state.loadingStep;
-              const isCompleted = index < state.loadingStep;
-
-              return (
-                <div
-                  key={index}
-                  className={`flex items-center gap-3 transition-all duration-500 ${
-                    isActive ? 'opacity-100 scale-105' :
-                    isCompleted ? 'opacity-40' :
-                    'opacity-0 translate-y-4'
-                  }`}
-                >
-                  <div className={`w-5 h-5 flex items-center justify-center rounded-full border transition-colors duration-300 ${
-                    isCompleted ? 'bg-amber-500 border-amber-500' :
-                    isActive ? 'border-white animate-pulse' :
-                    'border-gray-600'
-                  }`}>
-                    {isCompleted && <CheckCircle2 className="w-3 h-3 text-black" />}
-                    {isActive && <div className="w-2 h-2 bg-white rounded-full" />}
-                  </div>
-                  <span className={`font-medium text-lg ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                    {step}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="w-full h-full flex flex-col">
-        {/* Background */}
-        <div className="absolute inset-0">
-          {HERO_IMAGES.map((img, i) => (
-            <div
-              key={img}
-              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-                i === heroIndex ? 'opacity-30' : 'opacity-0'
-              }`}
-              style={{ backgroundImage: `url(${img})` }}
-            />
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/40 to-brand-dark" />
-        </div>
-
-        <div className="relative z-10 flex-1 flex flex-col justify-center px-6 pb-24">
-          {/* Contractor branding */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-2 mb-6">
-              <div className="w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-md flex items-center justify-center">
-                <span className="text-white font-bold text-xs">M</span>
-              </div>
-              <span className="text-sm font-semibold text-white">Mike's Plumbing & HVAC</span>
-            </div>
-          </div>
-
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-4 leading-tight">
-            Check your project status
-          </h1>
-          <p className="text-white/70 text-center mb-8 max-w-xs mx-auto">
-            Enter your property address to view your project timeline and details.
-          </p>
-          
-          <AddressInput onSelect={submitAddress} isLoading={false} />
-
-          {/* Quick actions */}
-          <div className="grid grid-cols-3 gap-3 mt-10 max-w-md mx-auto w-full">
-            {[
-              { icon: <Zap className="w-5 h-5" />, label: 'Get Quote', tab: 'quote' as const },
-              { icon: <MessageSquare className="w-5 h-5" />, label: 'Message', tab: 'projects' as const },
-              { icon: <Star className="w-5 h-5" />, label: 'Reputation', tab: 'reputation' as const },
-            ].map((action) => (
-              <button
-                key={action.label}
-                onClick={() => setActiveTab(action.tab)}
-                className="flex flex-col items-center gap-2 p-4 bg-white/5 backdrop-blur border border-white/10 rounded-2xl hover:bg-white/10 transition-all active:scale-95"
-              >
-                <div className="text-amber-400">{action.icon}</div>
-                <span className="text-xs font-medium text-gray-300">{action.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Account tab content
-  const renderAccount = () => (
-    <div className="px-6 pt-16 pb-24 min-h-screen bg-brand-dark">
-      <h2 className="text-2xl font-bold mb-6">Account</h2>
-      
-      {/* Profile card */}
-      <div className="bg-brand-card rounded-2xl p-5 border border-white/10 mb-6">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-xl font-bold">
-            JD
-          </div>
-          <div>
-            <p className="font-bold text-lg">John Doe</p>
-            <p className="text-gray-400 text-sm">john.doe@email.com</p>
-          </div>
-        </div>
-        <div className="bg-white/5 rounded-xl p-3 text-center">
-          <p className="text-xs text-gray-400">Account Status</p>
-          <p className="text-amber-400 font-bold text-sm">Active Customer</p>
-        </div>
-      </div>
-
-      {/* Menu items */}
-      <div className="space-y-2">
-        {[
-          'Notification Settings',
-          'Payment Methods',
-          'Service History',
-          'Help & Support',
-          'Privacy Policy',
-        ].map((item) => (
-          <div key={item} className="flex items-center justify-between p-4 bg-brand-card rounded-xl border border-white/10 hover:bg-white/10 transition-all cursor-pointer">
-            <span className="text-sm font-medium">{item}</span>
-            <ArrowRight className="w-4 h-4 text-gray-500" />
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={goToLanding}
-        className="w-full mt-8 py-3 border border-white/20 rounded-xl text-gray-400 font-medium text-sm hover:bg-white/5 transition-all"
-      >
-        Exit Demo → Back to ProPorch
-      </button>
-    </div>
-  );
+  }, [state.demoView]);
 
   return (
-    <div className="relative w-full min-h-screen bg-brand-dark text-white overflow-hidden">
-      {/* Top bar */}
-      <div className="fixed top-0 left-0 right-0 z-40 bg-brand-dark/90 backdrop-blur-xl border-b border-white/5">
-        <div className="flex items-center justify-between px-4 py-3">
-          <button onClick={goToLanding} className="p-1.5 text-gray-400 hover:text-white transition-colors">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-[10px]">M</span>
-            </div>
-            <span className="text-sm font-bold">Mike's Plumbing & HVAC</span>
-          </div>
-          <div className="w-8" />
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900">
+      <style>{`
+        @keyframes progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+      `}</style>
+
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Slideshow Backgrounds */}
+        {HERO_IMAGES.map((img, index) => (
+          <div
+            key={img}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+              state.demoView === 'home' && index === currentHeroIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ backgroundImage: `url(${img})` }}
+          />
+        ))}
+
+        {/* Result state background */}
+        {state.demoView === 'result' && (
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-100"
+            style={{ backgroundImage: `url(${HERO_IMAGES[0]})` }}
+          />
+        )}
+
+        {/* Overlay gradient for text readability on home */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/60 transition-opacity duration-1000 ${state.demoView === 'home' ? 'opacity-100' : 'opacity-0'}`} />
+
+        {/* Darker overlay for loading state */}
+        {state.demoView === 'loading' && (
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500" />
+        )}
+
+        {/* Overlay for result state */}
+        {state.demoView === 'result' && (
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
+        )}
+      </div>
+
+      {/* Full Width Progress Bar */}
+      {state.demoView === 'home' && (
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30">
+          <div
+            key={currentHeroIndex}
+            className="h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+            style={{
+              animation: `progress ${SLIDE_DURATION}ms linear`
+            }}
+          />
         </div>
-      </div>
-
-      {/* Content area */}
-      <div className="w-full min-h-screen">
-        {state.activeTab === 'home' && renderHome()}
-        {state.activeTab === 'projects' && (
-          <ProjectDashboard
-            projectData={state.projectData}
-            onAddressSubmit={submitAddress}
-          />
-        )}
-        {state.activeTab === 'quote' && (
-          <QuoteTool
-            onGenerateQuote={generateQuote}
-            quoteResult={state.quoteResult}
-            onClearQuote={clearQuote}
-          />
-        )}
-        {state.activeTab === 'reputation' && <ReputationDashboard />}
-        {state.activeTab === 'account' && renderAccount()}
-      </div>
-
-      {/* Loading overlay */}
-      {state.isLoading && (
-        <div className="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-30" />
       )}
 
-      {/* Bottom nav */}
-      <BottomNav activeTab={state.activeTab} onTabChange={setActiveTab} />
+      {/* Top Navigation / Branding */}
+      <div className="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center pointer-events-none">
+        {state.demoView === 'result' ? (
+          <button
+            onClick={resetSearch}
+            className="pointer-events-auto w-8 h-8 rounded-full bg-white flex items-center justify-center text-black shadow-lg transition-transform active:scale-95"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+        ) : (
+          <div className="text-white font-bold text-xl tracking-tight drop-shadow-md">ProPorch</div>
+        )}
+        {state.demoView === 'home' && (
+          <button
+            onClick={goToLanding}
+            className="pointer-events-auto text-white/70 text-sm font-medium hover:text-white transition-colors"
+          >
+            ← Back
+          </button>
+        )}
+      </div>
+
+      {/* Main Content Area */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center">
+        {/* HERO STATE */}
+        {state.demoView === 'home' && (
+          <div className="w-full h-full flex flex-col justify-center px-6 animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-6 leading-tight drop-shadow-lg">
+              Check your install status.
+            </h1>
+            <p className="text-white/90 text-center mb-10 max-w-xs mx-auto drop-shadow-md font-medium">
+              Enter your property address to view your project timeline and team details.
+            </p>
+            <AddressInput onSelect={submitAddress} isLoading={false} />
+          </div>
+        )}
+
+        {/* LOADING STATE - Chain of Thought */}
+        {state.demoView === 'loading' && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-50 px-6">
+            <div className="w-full max-w-xs space-y-4">
+              {LOADING_STEPS.map((step: string, index: number) => {
+                const isActive = index === state.loadingStep;
+                const isCompleted = index < state.loadingStep;
+
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-3 transition-all duration-500 ${
+                      isActive ? 'opacity-100 scale-105' :
+                      isCompleted ? 'opacity-40' :
+                      'opacity-0 translate-y-4'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 flex items-center justify-center rounded-full border transition-colors duration-300 ${
+                      isCompleted ? 'bg-green-500 border-green-500' :
+                      isActive ? 'border-white animate-pulse' :
+                      'border-gray-600'
+                    }`}>
+                      {isCompleted && <CheckCircle2 className="w-3 h-3 text-black" />}
+                      {isActive && <div className="w-2 h-2 bg-white rounded-full" />}
+                    </div>
+                    <span className={`font-medium text-lg ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                      {step}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Drawer - Result state */}
+      {state.demoView === 'result' && state.projectData && (
+        <DrawerPanel
+          data={state.projectData}
+          onGenerateQuote={generateQuote}
+          quoteResult={state.quoteResult}
+          onClearQuote={clearQuote}
+        />
+      )}
     </div>
   );
 };

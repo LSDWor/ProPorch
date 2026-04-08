@@ -7,21 +7,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
       },
       colors: {
-        brand: {
-          dark: '#0f172a',
-          darker: '#020617',
-          card: '#1e293b',
-          orange: '#f59e0b',
-          'orange-bright': '#f97316',
-        }
+        primary: '#000000',
+        secondary: '#6b7280',
+        accent: '#3b82f6',
       },
       boxShadow: {
         'card': '0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04)',
         'up': '0 -10px 30px -5px rgba(0, 0, 0, 0.1)',
-        'glow': '0 0 30px rgba(245, 158, 11, 0.3)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
