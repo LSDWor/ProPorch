@@ -58,6 +58,28 @@ export interface QuoteData {
   estimatedDays: string;
 }
 
-export type TabId = 'home' | 'projects' | 'quote' | 'referrals' | 'account';
+export type TabId = 'home' | 'projects' | 'quote' | 'reputation' | 'account';
 
 export type AppView = 'landing' | 'demo';
+
+export interface GoogleReview {
+  id: string;
+  reviewerName: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  text: string;
+  timeAgo: string;
+  hasReply: boolean;
+  replyText?: string;
+}
+
+export interface ReputationStats {
+  overallRating: number;
+  totalReviews: number;
+  areaAverage: number;
+  reviewsThisMonth: number;
+  reviewGoal: number;
+  lastMonthReviews: number;
+  responseRate: number;
+  avgResponseTime: number;
+  sentimentScore: number;
+}

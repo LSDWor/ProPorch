@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Layers, Receipt, Gift, UserCircle } from './Icons';
+import { Home, Layers, Receipt, Star, UserCircle } from './Icons';
 import { TabId } from '../types';
 
 interface BottomNavProps {
@@ -11,7 +11,7 @@ const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
   { id: 'home', label: 'Home', icon: <Home className="w-5 h-5" /> },
   { id: 'projects', label: 'Projects', icon: <Layers className="w-5 h-5" /> },
   { id: 'quote', label: 'Quote', icon: <Receipt className="w-5 h-5" /> },
-  { id: 'referrals', label: 'Referrals', icon: <Gift className="w-5 h-5" /> },
+  { id: 'reputation', label: 'Reputation', icon: <Star className="w-5 h-5" /> },
   { id: 'account', label: 'Account', icon: <UserCircle className="w-5 h-5" /> },
 ];
 

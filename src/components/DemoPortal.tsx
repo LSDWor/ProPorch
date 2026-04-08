@@ -5,7 +5,7 @@ import AddressInput from './AddressInput';
 import BottomNav from './BottomNav';
 import ProjectDashboard from './ProjectDashboard';
 import QuoteTool from './QuoteTool';
-import ReferralSection from './ReferralSection';
+import ReputationDashboard from './ReputationDashboard';
 
 interface DemoPortalProps {
   demo: any;
@@ -102,7 +102,7 @@ const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
             {[
               { icon: <Zap className="w-5 h-5" />, label: 'Get Quote', tab: 'quote' as const },
               { icon: <MessageSquare className="w-5 h-5" />, label: 'Message', tab: 'projects' as const },
-              { icon: <Star className="w-5 h-5" />, label: 'Refer', tab: 'referrals' as const },
+              { icon: <Star className="w-5 h-5" />, label: 'Reputation', tab: 'reputation' as const },
             ].map((action) => (
               <button
                 key={action.label}
@@ -200,7 +200,7 @@ const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
             onClearQuote={clearQuote}
           />
         )}
-        {state.activeTab === 'referrals' && <ReferralSection />}
+        {state.activeTab === 'reputation' && <ReputationDashboard />}
         {state.activeTab === 'account' && renderAccount()}
       </div>
 

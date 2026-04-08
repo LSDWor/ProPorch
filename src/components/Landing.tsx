@@ -196,8 +196,8 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
               },
               {
                 icon: <Users className="w-6 h-6" />,
-                title: "Referral Engine",
-                description: "Turn happy clients into your best salespeople. Automated referral tracking with reward credits.",
+                title: "Reputation Engine",
+                description: "Monitor your Google reviews, send review requests after every job, and boost your rating to outrank competitors.",
                 color: "from-purple-500 to-pink-500",
               },
             ].map((feature, i) => (
@@ -232,7 +232,7 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           {[
             { name: "Mike R.", role: "Plumber, Austin TX", text: "ProPorch cut our admin time in half. Clients love being able to check their project status without calling." },
             { name: "Sarah L.", role: "Electrician, Denver CO", text: "The instant quoting feature alone paid for itself in the first week. Customers convert way faster." },
-            { name: "Dave K.", role: "HVAC Tech, Chicago IL", text: "Referrals went up 3x after we launched our portal. The referral engine is a game-changer." },
+            { name: "Dave K.", role: "HVAC Tech, Chicago IL", text: "Our Google rating went from 3.8 to 4.5 in two months. The review requests and response templates are game-changers." },
           ].map((review, i) => (
             <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6">
               <div className="flex gap-1 mb-4">

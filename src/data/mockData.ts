@@ -1,4 +1,4 @@
-import { ProjectData, Message, DocumentItem, Referral, QuoteData } from '../types';
+import { ProjectData, Message, DocumentItem, Referral, QuoteData, GoogleReview, ReputationStats } from '../types';
 
 export const mockProjectData: ProjectData = {
   address: "742 Evergreen Terrace, Springfield, IL 62704",
@@ -79,6 +79,64 @@ export const mockReferrals: Referral[] = [
   { id: '2', name: 'Tom Williams', status: 'signed_up', reward: '$50 credit', date: 'Apr 2, 2026' },
   { id: '3', name: 'Jenny Parker', status: 'pending', reward: '$50 credit', date: 'Apr 20, 2026' },
 ];
+
+export const mockReviews: GoogleReview[] = [
+  {
+    id: '1',
+    reviewerName: 'David Martinez',
+    rating: 5,
+    text: "Mike's team did an amazing job on our water heater installation. Fast, professional, and they cleaned up everything. Highly recommend!",
+    timeAgo: '2 days ago',
+    hasReply: true,
+    replyText: "Thanks David! We're glad we could help. Don't hesitate to reach out if you need anything!"
+  },
+  {
+    id: '2',
+    reviewerName: 'Emily Chen',
+    rating: 5,
+    text: "Best plumbing service in Springfield! They fixed our kitchen leak same-day and the price was fair. Will definitely use again.",
+    timeAgo: '5 days ago',
+    hasReply: true,
+    replyText: "Thank you Emily! We appreciate your business and the kind words!"
+  },
+  {
+    id: '3',
+    reviewerName: 'Robert Johnson',
+    rating: 4,
+    text: "Good work overall. Took a bit longer than expected but the quality was solid. Would use their services again.",
+    timeAgo: '1 week ago',
+    hasReply: false
+  },
+  {
+    id: '4',
+    reviewerName: 'Lisa Thompson',
+    rating: 2,
+    text: "Had to wait 3 hours past the scheduled window. The work was fine but the communication could have been better.",
+    timeAgo: '2 weeks ago',
+    hasReply: true,
+    replyText: "Lisa, we sincerely apologize for the delay. This isn't our standard. Please call us at (555) 234-5678 so we can make it right."
+  },
+  {
+    id: '5',
+    reviewerName: 'James Wilson',
+    rating: 5,
+    text: "Exceptional service from start to finish. Mike gave us a detailed quote and the team was professional throughout. 10/10!",
+    timeAgo: '3 weeks ago',
+    hasReply: false
+  }
+];
+
+export const reputationStats: ReputationStats = {
+  overallRating: 4.2,
+  totalReviews: 47,
+  areaAverage: 4.6,
+  reviewsThisMonth: 2,
+  reviewGoal: 8,
+  lastMonthReviews: 5,
+  responseRate: 78,
+  avgResponseTime: 4.2,
+  sentimentScore: 82
+};
 
 export const serviceQuotes: Record<string, QuoteData> = {
   plumbing: {
