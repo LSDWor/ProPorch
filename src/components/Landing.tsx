@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ArrowRight,
   Shield,
@@ -18,6 +18,32 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2653&auto=format&fit=crop",
 ];
 
+/* ── Scroll-reveal hook ── */
+function useReveal(threshold = 0.15) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, revealed };
+}
+
 const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
   const [heroIndex, setHeroIndex] = useState(0);
 
@@ -27,6 +53,11 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  const features = useReveal(0.12);
+  const social = useReveal(0.12);
+  const pricing = useReveal(0.12);
+  const cta = useReveal(0.15);
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 overflow-x-hidden">
@@ -53,7 +84,7 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           </div>
           <button
             onClick={onEnterDemo}
-            className="text-sm font-semibold text-white/90 hover:text-white transition-colors"
+            className="text-xs font-semibold text-white/90 hover:text-white transition-colors"
           >
             Try Demo →
           </button>
@@ -70,15 +101,15 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
             ProPorch gives plumbers, electricians, and contractors a branded client portal with instant quoting, project tracking, and reputation management.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
+          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs">
             <button
               onClick={onEnterDemo}
-              className="flex-1 bg-black text-white font-bold py-4 px-8 rounded-full hover:bg-gray-800 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg"
+              className="flex-1 bg-black text-white font-semibold py-2.5 px-5 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 shadow-lg text-sm hover:shadow-xl"
             >
               Try the Demo
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="flex-1 bg-white/95 backdrop-blur-xl text-gray-900 font-semibold py-4 px-8 rounded-full hover:bg-white transition-all shadow-lg">
+            <button className="flex-1 bg-white/95 backdrop-blur-xl text-gray-900 font-semibold py-2.5 px-5 rounded-full hover:bg-white transition-all duration-300 shadow-lg text-sm hover:shadow-xl">
               Start Free Trial
             </button>
           </div>
@@ -95,7 +126,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6 bg-gray-100">
+      <section
+        ref={features.ref as React.RefObject<HTMLElement>}
+        className={`py-20 px-6 bg-gray-100 reveal-section ${features.revealed ? 'revealed' : ''}`}
+      >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Everything your business needs</h2>
@@ -105,19 +139,19 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: <Shield className="w-6 h-6" />,
+                icon: <Shield className="w-5 h-5" />,
                 title: "Client Portal",
                 description: "Give clients real-time visibility into project status, team info, materials, and documents — all branded to your business.",
                 color: "bg-blue-100 text-blue-600",
               },
               {
-                icon: <Zap className="w-6 h-6" />,
+                icon: <Zap className="w-5 h-5" />,
                 title: "Instant Quoting",
                 description: "Generate professional quotes in seconds. Clients approve and pay deposits right from their phone.",
                 color: "bg-amber-100 text-amber-600",
               },
               {
-                icon: <Users className="w-6 h-6" />,
+                icon: <Users className="w-5 h-5" />,
                 title: "Reputation Engine",
                 description: "Monitor your Google reviews, send review requests after every job, and boost your rating to outrank competitors.",
                 color: "bg-purple-100 text-purple-600",
@@ -125,12 +159,12 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
             ].map((feature, i) => (
               <div
                 key={i}
-                className="bg-white border border-gray-100 rounded-2xl p-6 shadow-card hover:shadow-lg transition-all group"
+                className={`bg-white border border-gray-100 rounded-2xl p-6 shadow-card hover:shadow-lg transition-all duration-500 group reveal-child reveal-delay-${i + 1} ${features.revealed ? 'revealed' : ''}`}
               >
-                <div className={`w-12 h-12 rounded-xl ${feature.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+                <div className={`w-10 h-10 rounded-xl ${feature.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{feature.title}</h3>
                 <p className="text-gray-500 leading-relaxed text-sm">{feature.description}</p>
               </div>
             ))}
@@ -139,7 +173,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
       </section>
 
       {/* Social Proof */}
-      <section className="py-20 px-6 bg-white">
+      <section
+        ref={social.ref as React.RefObject<HTMLElement>}
+        className={`py-20 px-6 bg-white reveal-section ${social.revealed ? 'revealed' : ''}`}
+      >
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by contractors everywhere</h2>
           <div className="flex items-center justify-center gap-1 mb-2">
@@ -156,7 +193,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
             { name: "Sarah L.", role: "Electrician, Denver CO", text: "The instant quoting feature alone paid for itself in the first week. Customers convert way faster." },
             { name: "Dave K.", role: "HVAC Tech, Chicago IL", text: "Our Google rating went from 3.8 to 4.5 in two months. The review requests and response templates are game-changers." },
           ].map((review, i) => (
-            <div key={i} className="bg-gray-50 border border-gray-100 rounded-2xl p-6 shadow-sm">
+            <div
+              key={i}
+              className={`bg-gray-50 border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-500 reveal-child reveal-delay-${i + 1} ${social.revealed ? 'revealed' : ''}`}
+            >
               <div className="flex gap-1 mb-4">
                 {[1,2,3,4,5].map(s => (
                   <Star key={s} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -173,7 +213,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-gray-100">
+      <section
+        ref={pricing.ref as React.RefObject<HTMLElement>}
+        className={`py-20 px-6 bg-gray-100 reveal-section ${pricing.revealed ? 'revealed' : ''}`}
+      >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Simple, transparent pricing</h2>
@@ -209,10 +252,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
             ].map((plan, i) => (
               <div
                 key={i}
-                className={`rounded-2xl p-6 border transition-all ${
+                className={`rounded-2xl p-6 border transition-all duration-500 reveal-child reveal-delay-${i + 1} ${pricing.revealed ? 'revealed' : ''} ${
                   plan.popular
                     ? 'bg-white border-blue-500 border-2 scale-105 shadow-card'
-                    : 'bg-white border-gray-200 shadow-sm'
+                    : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
                 }`}
               >
                 {plan.popular && (
@@ -238,9 +281,9 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
                 </ul>
                 <button
                   onClick={plan.popular ? onEnterDemo : undefined}
-                  className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+                  className={`w-full py-2.5 rounded-xl font-semibold text-xs transition-all duration-300 ${
                     plan.popular
-                      ? 'bg-black text-white hover:bg-gray-800 active:scale-95 shadow-lg'
+                      ? 'bg-black text-white hover:bg-gray-800 active:scale-95 shadow-lg hover:shadow-xl'
                       : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -253,7 +296,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-white">
+      <section
+        ref={cta.ref as React.RefObject<HTMLElement>}
+        className={`py-20 px-6 bg-white reveal-section ${cta.revealed ? 'revealed' : ''}`}
+      >
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Ready to upgrade your client experience?
@@ -263,10 +309,10 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           </p>
           <button
             onClick={onEnterDemo}
-            className="bg-black text-white font-bold py-4 px-10 rounded-full hover:bg-gray-800 transition-all active:scale-95 inline-flex items-center gap-2 text-lg shadow-lg"
+            className="bg-black text-white font-semibold py-3 px-8 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 inline-flex items-center gap-2 text-sm shadow-lg hover:shadow-xl"
           >
             Try the Demo
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </section>
@@ -277,9 +323,9 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           <div className="font-bold text-gray-900 text-lg">ProPorch</div>
           <p className="text-gray-500 text-sm">© 2026 ProPorch, Inc. All rights reserved.</p>
           <div className="flex gap-6">
-            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors">Privacy</span>
-            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors">Terms</span>
-            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors">Support</span>
+            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors duration-300">Privacy</span>
+            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors duration-300">Terms</span>
+            <span className="text-gray-500 text-sm hover:text-gray-900 cursor-pointer transition-colors duration-300">Support</span>
           </div>
         </div>
       </footer>
