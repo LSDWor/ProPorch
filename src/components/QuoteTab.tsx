@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { QuoteData } from '../types';
 import { SERVICES_LIST, SERVICE_FORM_FIELDS } from '../data/mockData';
-import { Upload, Send, CheckCircle2, ArrowRight } from './Icons';
+import { Upload, Send, CheckCircle2, ArrowRight, Wrench, Zap, Snowflake, Home, Paintbrush } from './Icons';
+
+const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  wrench: <Wrench className="w-5 h-5" />,
+  zap: <Zap className="w-5 h-5" />,
+  snowflake: <Snowflake className="w-5 h-5" />,
+  home: <Home className="w-5 h-5" />,
+  paintbrush: <Paintbrush className="w-5 h-5" />,
+};
 
 interface QuoteTabProps {
   onGenerateQuote: (serviceType: string) => void;
@@ -91,7 +99,7 @@ const QuoteTab: React.FC<QuoteTabProps> = ({ onGenerateQuote, quoteResult, onCle
                 : 'bg-gray-50 text-gray-600 border-gray-100 hover:bg-gray-100'
             }`}
           >
-            <span className="text-lg mb-1">{service.icon}</span>
+            <span className="mb-1">{SERVICE_ICONS[service.icon]}</span>
             <span className="text-[10px] font-semibold">{service.name}</span>
           </button>
         ))}

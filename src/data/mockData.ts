@@ -254,9 +254,9 @@ export const LOADING_STEPS = [
 ];
 
 export const SERVICES_LIST = [
-  { id: 'plumbing', name: 'Plumbing', icon: '🔧', color: 'from-blue-500 to-blue-600' },
-  { id: 'electrical', name: 'Electrical', icon: '⚡', color: 'from-yellow-500 to-amber-600' },
-  { id: 'hvac', name: 'HVAC', icon: '❄️', color: 'from-cyan-500 to-blue-600' },
-  { id: 'roofing', name: 'Roofing', icon: '🏠', color: 'from-red-500 to-orange-600' },
-  { id: 'painting', name: 'Painting', icon: '🎨', color: 'from-purple-500 to-pink-600' },
+  { id: 'plumbing', name: 'Plumbing', icon: 'wrench', color: 'from-blue-500 to-blue-600' },
+  { id: 'electrical', name: 'Electrical', icon: 'zap', color: 'from-yellow-500 to-amber-600' },
+  { id: 'hvac', name: 'HVAC', icon: 'snowflake', color: 'from-cyan-500 to-blue-600' },
+  { id: 'roofing', name: 'Roofing', icon: 'home', color: 'from-red-500 to-orange-600' },
+  { id: 'painting', name: 'Painting', icon: 'paintbrush', color: 'from-purple-500 to-pink-600' },
 ];

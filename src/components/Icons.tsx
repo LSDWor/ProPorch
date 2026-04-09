@@ -54,6 +54,7 @@ import {
   CircleDot,
   Award,
   Link,
+  Snowflake,
   ChevronDown as ChevronDownIcon,
 } from 'lucide-react';
 
@@ -113,4 +114,5 @@ export {
   CircleDot,
   Award,
   Link,
+  Snowflake,
 };
