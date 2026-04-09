@@ -102,7 +102,7 @@ const ServiceCarousel: React.FC = () => {
                <p className="text-gray-300 text-xs max-w-[60%] line-clamp-1 font-medium">
                  {current.description}
                </p>
-               <button className="bg-white text-black text-xs font-bold px-3 py-2 rounded-lg flex items-center hover:bg-gray-200 transition-colors active:scale-95">
+               <button className="bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center hover:bg-gray-200 transition-all duration-300 active:scale-95">
                  {current.cta}
                  <ArrowRight className="w-3 h-3 ml-2" />
                </button>

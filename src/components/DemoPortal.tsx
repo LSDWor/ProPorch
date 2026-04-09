@@ -46,44 +46,43 @@ const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
 
       {/* Dynamic Background */}
       <div className="absolute inset-0 z-0">
-        {/* Slideshow Backgrounds */}
+        {/* Slideshow Backgrounds — only visible on home/loading */}
         {HERO_IMAGES.map((img, index) => (
           <div
             key={img}
             className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
-              state.demoView === 'home' && index === currentHeroIndex ? 'opacity-100' : 'opacity-0'
+              state.demoView !== 'result' && index === currentHeroIndex ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ backgroundImage: `url(${img})` }}
           />
         ))}
 
         {/* Result state background — satellite view of address */}
-        {state.demoView === 'result' && state.address && MAPS_KEY && (
+        {state.demoView === 'result' && (
           <>
             {/* Preload satellite image */}
-            <img
-              src={getSatelliteUrl(state.address)}
-              alt=""
-              className="hidden"
-              onLoad={() => setSatLoaded(true)}
-            />
-            {/* Fallback while loading */}
+            {state.address && MAPS_KEY && (
+              <img
+                src={getSatelliteUrl(state.address)}
+                alt=""
+                className="hidden"
+                onLoad={() => setSatLoaded(true)}
+                onError={() => setSatLoaded(false)}
+              />
+            )}
+            {/* Fallback — shown until satellite loads */}
             <div
               className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${satLoaded ? 'opacity-0' : 'opacity-100'}`}
               style={{ backgroundImage: `url(${HERO_IMAGES[0]})` }}
             />
             {/* Satellite view */}
-            <div
-              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${satLoaded ? 'opacity-100' : 'opacity-0'}`}
-              style={{ backgroundImage: `url(${getSatelliteUrl(state.address)})` }}
-            />
+            {state.address && MAPS_KEY && (
+              <div
+                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${satLoaded ? 'opacity-100' : 'opacity-0'}`}
+                style={{ backgroundImage: `url(${getSatelliteUrl(state.address)})` }}
+              />
+            )}
           </>
-        )}
-        {state.demoView === 'result' && (!state.address || !MAPS_KEY) && (
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-100"
-            style={{ backgroundImage: `url(${HERO_IMAGES[0]})` }}
-          />
         )}
 
         {/* Overlay gradient for text readability on home */}

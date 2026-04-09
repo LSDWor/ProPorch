@@ -74,7 +74,7 @@ const QuoteTab: React.FC<QuoteTabProps> = ({ onGenerateQuote, quoteResult, onCle
 
         <button
           onClick={() => { onClearQuote(); setSelectedService(''); }}
-          className="w-full bg-black text-white py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-lg"
+          className="w-full bg-black text-white py-2 rounded-xl font-semibold text-xs hover:bg-gray-800 transition-all duration-300 shadow-lg active:scale-95"
         >
           Get Another Quote
         </button>
@@ -138,7 +138,7 @@ const QuoteTab: React.FC<QuoteTabProps> = ({ onGenerateQuote, quoteResult, onCle
         <button
           onClick={handleGenerate}
           disabled={isGenerating}
-          className="w-full bg-black text-white py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 shadow-lg disabled:opacity-70"
+          className="w-full bg-black text-white py-2 rounded-xl font-semibold text-xs hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg disabled:opacity-70 active:scale-95"
         >
           {isGenerating ? (
             <>

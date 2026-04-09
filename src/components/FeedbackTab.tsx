@@ -39,7 +39,7 @@ const FeedbackTab: React.FC = () => {
         <p className="text-gray-500 mb-8">Your feedback has been submitted successfully.</p>
         <button
           onClick={handleReset}
-          className="w-full bg-black text-white py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-lg"
+          className="w-full bg-black text-white py-2 rounded-xl font-semibold text-xs hover:bg-gray-800 transition-all duration-300 shadow-lg active:scale-95"
         >
           Submit Another
         </button>
@@ -73,13 +73,13 @@ const FeedbackTab: React.FC = () => {
         <div className="flex gap-3 mt-auto mb-8">
           <button
             onClick={handleReset}
-            className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+            className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-xl font-semibold text-xs hover:bg-gray-200 transition-all duration-300"
           >
             Skip
           </button>
           <button
             onClick={handleSubmit}
-            className="flex-1 bg-black text-white py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 shadow-lg"
+            className="flex-1 bg-black text-white py-2 rounded-xl font-semibold text-xs hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg active:scale-95"
           >
             Submit <Send className="w-4 h-4" />
           </button>

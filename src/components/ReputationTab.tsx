@@ -75,7 +75,7 @@ const ReputationTab: React.FC = () => {
               onChange={(e) => setSmsPhone(e.target.value)}
               className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-3 text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none"
             />
-            <button className="bg-black text-white px-4 rounded-2xl font-semibold text-sm flex items-center gap-1.5 hover:bg-gray-800 transition-colors">
+            <button className="bg-black text-white px-3 py-1.5 rounded-2xl font-semibold text-xs flex items-center gap-1.5 hover:bg-gray-800 transition-all duration-300 active:scale-95">
               <Send className="w-3.5 h-3.5" /> SMS
             </button>
           </div>
@@ -88,7 +88,7 @@ const ReputationTab: React.FC = () => {
               onChange={(e) => setEmailAddr(e.target.value)}
               className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-3 text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none"
             />
-            <button className="bg-black text-white px-4 rounded-2xl font-semibold text-sm flex items-center gap-1.5 hover:bg-gray-800 transition-colors">
+            <button className="bg-black text-white px-3 py-1.5 rounded-2xl font-semibold text-xs flex items-center gap-1.5 hover:bg-gray-800 transition-all duration-300 active:scale-95">
               <Send className="w-3.5 h-3.5" /> Email
             </button>
           </div>
@@ -189,7 +189,7 @@ const ReputationTab: React.FC = () => {
           <h3 className="text-xl font-bold text-white mb-2">Want us to manage your reputation?</h3>
           <p className="text-gray-400 text-sm mb-6">We'll handle review responses, campaigns, and growth strategy.</p>
           <div className="text-white text-3xl font-bold mb-2">From $299<span className="text-lg text-gray-400">/mo</span></div>
-          <button className="bg-white text-black px-8 py-3 rounded-xl font-bold text-sm hover:bg-gray-100 transition-all active:scale-95 shadow-lg w-full flex items-center justify-center gap-2">
+          <button className="bg-white text-black px-6 py-2 rounded-xl font-semibold text-xs hover:bg-gray-100 transition-all duration-300 active:scale-95 shadow-lg w-full flex items-center justify-center gap-1.5">
             Learn More <ExternalLink className="w-4 h-4" />
           </button>
         </div>

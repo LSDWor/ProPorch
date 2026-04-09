@@ -104,12 +104,12 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs">
             <button
               onClick={onEnterDemo}
-              className="flex-1 bg-black text-white font-semibold py-2.5 px-5 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 shadow-lg text-sm hover:shadow-xl"
+              className="flex-1 bg-black text-white font-semibold py-2 px-4 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 shadow-lg text-xs hover:shadow-xl"
             >
               Try the Demo
               <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="flex-1 bg-white/95 backdrop-blur-xl text-gray-900 font-semibold py-2.5 px-5 rounded-full hover:bg-white transition-all duration-300 shadow-lg text-sm hover:shadow-xl">
+            <button className="flex-1 bg-white/95 backdrop-blur-xl text-gray-900 font-semibold py-2 px-4 rounded-full hover:bg-white transition-all duration-300 shadow-lg text-xs hover:shadow-xl">
               Start Free Trial
             </button>
           </div>
@@ -281,7 +281,7 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
                 </ul>
                 <button
                   onClick={plan.popular ? onEnterDemo : undefined}
-                  className={`w-full py-2.5 rounded-xl font-semibold text-xs transition-all duration-300 ${
+                  className={`w-full py-2 rounded-xl font-semibold text-xs transition-all duration-300 ${
                     plan.popular
                       ? 'bg-black text-white hover:bg-gray-800 active:scale-95 shadow-lg hover:shadow-xl'
                       : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
@@ -309,7 +309,7 @@ const Landing: React.FC<LandingProps> = ({ onEnterDemo }) => {
           </p>
           <button
             onClick={onEnterDemo}
-            className="bg-black text-white font-semibold py-3 px-8 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 inline-flex items-center gap-2 text-sm shadow-lg hover:shadow-xl"
+            className="bg-black text-white font-semibold py-2 px-6 rounded-full hover:bg-gray-800 transition-all duration-300 active:scale-95 inline-flex items-center gap-1.5 text-xs shadow-lg hover:shadow-xl"
           >
             Try the Demo
             <ArrowRight className="w-4 h-4" />
