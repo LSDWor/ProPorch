@@ -9,10 +9,22 @@ interface DemoPortalProps {
 }
 
 const SLIDE_DURATION = 5000;
+const MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || 'AIzaSyBXK1h0J34roznmeVyDi5nr0ihr4np6saU';
+
+function getSatelliteUrl(address: string, width = 800, height = 1200) {
+  const encoded = encodeURIComponent(address);
+  return `https://maps.googleapis.com/maps/api/staticmap?center=${encoded}&zoom=19&size=${width}x${height}&maptype=satellite&key=${MAPS_KEY}`;
+}
 
 const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
   const { state, submitAddress, resetSearch, goToLanding, generateQuote, clearQuote } = demo;
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [satLoaded, setSatLoaded] = useState(false);
+
+  // Reset satellite state when address changes
+  useEffect(() => {
+    setSatLoaded(false);
+  }, [state.address]);
 
   // Cycle background images on home
   useEffect(() => {
@@ -45,8 +57,29 @@ const DemoPortal: React.FC<DemoPortalProps> = ({ demo }) => {
           />
         ))}
 
-        {/* Result state background */}
-        {state.demoView === 'result' && (
+        {/* Result state background — satellite view of address */}
+        {state.demoView === 'result' && state.address && MAPS_KEY && (
+          <>
+            {/* Preload satellite image */}
+            <img
+              src={getSatelliteUrl(state.address)}
+              alt=""
+              className="hidden"
+              onLoad={() => setSatLoaded(true)}
+            />
+            {/* Fallback while loading */}
+            <div
+              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${satLoaded ? 'opacity-0' : 'opacity-100'}`}
+              style={{ backgroundImage: `url(${HERO_IMAGES[0]})` }}
+            />
+            {/* Satellite view */}
+            <div
+              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${satLoaded ? 'opacity-100' : 'opacity-0'}`}
+              style={{ backgroundImage: `url(${getSatelliteUrl(state.address)})` }}
+            />
+          </>
+        )}
+        {state.demoView === 'result' && (!state.address || !MAPS_KEY) && (
           <div
             className="absolute inset-0 bg-cover bg-center opacity-100"
             style={{ backgroundImage: `url(${HERO_IMAGES[0]})` }}
